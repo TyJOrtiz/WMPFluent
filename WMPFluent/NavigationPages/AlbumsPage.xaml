@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="WMPFluent.NavigationPages.AlbumsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WMPFluent.NavigationPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:MediaTransportControls="using:WMPFluent.Controls" xmlns:models="using:WMPFluent.Models"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <SemanticZoom Visibility="Visible" Grid.Row="1" IsZoomOutButtonEnabled="True" ScrollViewer.ZoomMode="Enabled">
+            <SemanticZoom.ZoomedInView>
+                <GridView IsRightTapEnabled="True" ItemsSource="{x:Bind AlbumPageViewModel.CollectionView.View, Mode=OneWay}" IsItemClickEnabled="True" SelectionMode="Single" ItemClick="AlbumView_ItemClick" x:Name="AlbumView">
+
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="models:LibraryAlbum">
+                            <GridViewItem Padding="0"
+>
+                                <MediaTransportControls:AlbumDetailsControl></MediaTransportControls:AlbumDetailsControl>
+                            </GridViewItem>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" ItemHeight="102" ItemWidth="235" Orientation="Horizontal" Margin="30,0,30,30"></ItemsWrapGrid>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel BorderThickness="0" Margin="0,0,0,0" />
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="2">
+                                        <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold">
+                                                        <Run Text="{Binding Key}"></Run>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <GridView IsItemClickEnabled="True" x:Name="AlbumGroups" ItemsSource="{x:Bind AlbumPageViewModel.CollectionView.View.CollectionGroups, Mode=OneWay}" HorizontalAlignment="Stretch"
+                  SelectionMode="None">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="14" Text="{Binding Group.Key}"></TextBlock>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" MaximumRowsOrColumns="4"></ItemsWrapGrid>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
+        <Grid BorderThickness="2,2,0,2" BorderBrush="{ThemeResource DividerBrush}" Background="{ThemeResource CommandBarBrush}">
+        </Grid>
+    </Grid>
+</Page>

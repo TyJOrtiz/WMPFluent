@@ -9,23 +9,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView Margin="0,48,0,0" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
+        <ListView  Margin="0,48,0,0" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Top" ColumnSpacing="10">
+                            <Grid VerticalAlignment="Top" Width="320" ColumnSpacing="10">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MaxWidth="150" MinWidth="48"></ColumnDefinition>
+                                    <ColumnDefinition MaxWidth="100" MinWidth="100"></ColumnDefinition>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <controls:ConstrainedBox MaxHeight="150" MaxWidth="150" AspectRatio="1:1" VerticalAlignment="Top">
                                     <controls:ImageEx CornerRadius="3" Source="{Binding Key.AlbumArt}"></controls:ImageEx>
                                 </controls:ConstrainedBox>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                                    <TextBlock FontSize="20" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" FontWeight="SemiBold" Text="{Binding Key.Name, Mode=OneWay}"></TextBlock>
-                                    <TextBlock Margin="0,5,0,0" Text="{Binding  Key.Genre, Mode=OneWay}"></TextBlock>
-                                    <TextBlock Text="{Binding Key.Year, Mode=OneWay}"></TextBlock>
+                                    <TextBlock FontSize="16" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" FontWeight="SemiBold" Text="{Binding Key.Name, Mode=OneWay}"></TextBlock>
+                                    <TextBlock FontSize="16" Margin="0,5,0,0" Text="{Binding  Key.Genre, Mode=OneWay}"></TextBlock>
+                                    <TextBlock FontSize="16" Text="{Binding Key.Year, Mode=OneWay}"></TextBlock>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -34,7 +34,7 @@
             </ListView.GroupStyle>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsStackPanel GroupHeaderPlacement="Left"></ItemsStackPanel>
+                    <ItemsStackPanel GroupHeaderPlacement="Left" GroupPadding="0,10" Margin="10"></ItemsStackPanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>

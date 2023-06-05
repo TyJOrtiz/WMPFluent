@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Toolkit.Uwp.UI.Helpers;
+using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Media.Playback;
 
@@ -14,7 +16,15 @@ namespace WMPFluent.Models
         public NowPlayingItem()
         {
             Self = this;
+            ThemeListener themeListener = new ThemeListener();
+            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
         }
+
+        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            this.NotifyPropertyChanged("IsNowPlaying");
+        }
+
         public MediaPlaybackItem MediaPlaybackItem { get; set; }
         public string Image { get; set; }
         public string Title { get; set; }
@@ -35,7 +45,6 @@ namespace WMPFluent.Models
                 }
             }
         }
-
         public NowPlayingItem Self { get; private set; }
     }
 }

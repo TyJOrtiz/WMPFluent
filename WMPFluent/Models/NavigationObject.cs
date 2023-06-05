@@ -14,5 +14,6 @@ namespace WMPFluent.Models
         public IconElement Icon { get; set; }
         public bool IsSelectEnabled { get; set; } = true;
         public ObservableCollection<object> Items { get; set; }
+        public string Page { get; set; }
     }
 }

@@ -12,29 +12,26 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using WMPFluent.ContentPages;
-using WMPFluent.Models;
 using WMPFluent.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace WMPFluent.NavigationPages
+namespace WMPFluent.ContentPages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AlbumsPage : Page
+    public sealed partial class SelectedAlbumPage : Page
     {
-        private AlbumPageViewModel AlbumPageViewModel;
-        public AlbumsPage()
+        private SelectedAlbumViewModel SelectedAlbumViewModel;
+        public SelectedAlbumPage()
         {
             this.InitializeComponent();
-            this.AlbumPageViewModel = new AlbumPageViewModel();
         }
-        private void AlbumView_ItemClick(object sender, ItemClickEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var selectedAlbumViewModel = new SelectedAlbumViewModel(e.ClickedItem as LibraryAlbum);
-            Frame.Navigate(typeof(SelectedAlbumPage), selectedAlbumViewModel);
+            base.OnNavigatedTo(e);
+            SelectedAlbumViewModel = (SelectedAlbumViewModel)e.Parameter;
         }
     }
 }

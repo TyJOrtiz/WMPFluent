@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,18 +24,24 @@ namespace WMPFluent.NavigationPages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AlbumsPage : Page
+    public sealed partial class ArtistsPage : Page
     {
-        private AlbumPageViewModel AlbumPageViewModel;
-        public AlbumsPage()
+        private ArtistPageViewModel ArtistPageViewModel;
+        public ArtistsPage()
         {
             this.InitializeComponent();
-            this.AlbumPageViewModel = new AlbumPageViewModel();
+            this.ArtistPageViewModel = new ArtistPageViewModel();
         }
-        private void AlbumView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ArtistView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var selectedAlbumViewModel = new SelectedAlbumViewModel(e.ClickedItem as LibraryAlbum);
-            Frame.Navigate(typeof(SelectedAlbumPage), selectedAlbumViewModel);
+            var item = args.ItemContainer.FindDescendant<WMPFluent.Controls.ArtistStackControl>();
+            item.BuildStack(args.Item as LibraryArtist);
+        }
+
+        private void ArtistView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var selectedViewModel = new SelectedArtistPageViewModel((e.ClickedItem as LibraryArtist).Artist);
+            Frame.Navigate(typeof(SelectedArtistPage), selectedViewModel);
         }
     }
 }

@@ -50,6 +50,7 @@ namespace WMPFluent.Controls
                 try
                 {
                     this.TrackName = (string)value.Source.CustomProperties["Title"];
+                    this.Album = (string)value.Source.CustomProperties["Album"];
                     this.ArtistName = (string)value.Source.CustomProperties["Artist"];
                     this.TrackThumbnail = new BitmapImage(new Uri((string)value.Source.CustomProperties["AlbumArt"]));
                 }
@@ -62,6 +63,7 @@ namespace WMPFluent.Controls
             {
                 this.TrackName = null;
                 this.ArtistName = null;
+                this.Album = null;
                 this.TrackThumbnail = null;
             }
         }
@@ -79,6 +81,21 @@ namespace WMPFluent.Controls
             else
             {
                 control.TrackName = null;
+            }
+        }
+        public static readonly DependencyProperty AlbumProperty =
+       DependencyProperty.Register("Album", typeof(string), typeof(CustomMediaTransportControls), new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnAlbumPropertyChanged)));
+
+        private static void OnAlbumPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CustomMediaTransportControls control = (CustomMediaTransportControls)d;
+            if (e.NewValue != null)
+            {
+                control.Album = e.NewValue as string;
+            }
+            else
+            {
+                control.Album = null;
             }
         }
 
@@ -102,6 +119,11 @@ namespace WMPFluent.Controls
         {
             get { return (string)GetValue(TrackNameProperty); }
             set { SetValue(TrackNameProperty, value); }
+        }
+        public string Album
+        {
+            get { return (string)GetValue(AlbumProperty); }
+            set { SetValue(AlbumProperty, value); }
         }
 
         public string ArtistName

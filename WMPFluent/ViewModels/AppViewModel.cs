@@ -19,6 +19,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
+using WMPFluent.Controls;
 
 namespace WMPFluent.ViewModels
 {
@@ -113,11 +114,11 @@ namespace WMPFluent.ViewModels
             return mediafound;
         }
 
-        //internal void HookMedia(MediaPlayerElement mediaPlayerHost, CustomMediaTransportControls mediaPlayerControls)
-        //{
-        //    this.MediaPlayerHost = mediaPlayerHost;
-        //    this.PlayerControls = mediaPlayerControls;
-        //}
+        internal void HookMedia(MediaPlayerElement mediaPlayerHost, CustomMediaTransportControls mediaPlayerControls)
+        {
+            this.MediaPlayerHost = mediaPlayerHost;
+            this.PlayerControls = mediaPlayerControls;
+        }
 
         private ObservableCollection<LibraryAlbum> recentAlbums;
         public ObservableCollection<LibraryAlbum> RecentAlbums
@@ -164,7 +165,7 @@ namespace WMPFluent.ViewModels
         }
 
         public MediaPlayerElement MediaPlayerHost { get; private set; }
-        //public CustomMediaTransportControls PlayerControls { get; private set; }
+        public CustomMediaTransportControls PlayerControls { get; private set; }
         private MediaPlaybackList mediaPlaybackList = null;
         internal DataTransferManager dataTransferManager;
 
@@ -213,7 +214,7 @@ namespace WMPFluent.ViewModels
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    //PlayerControls.CurrentPlaybackItem = args.NewItem;
+                    PlayerControls.CurrentPlaybackItem = args.NewItem;
                     NowPlayingList.ToList().ForEach(x =>
                     {
                         if (x.MediaPlaybackItem == args.NewItem)
@@ -255,7 +256,7 @@ namespace WMPFluent.ViewModels
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    //PlayerControls.CurrentPlaybackItem = null;
+                    PlayerControls.CurrentPlaybackItem = null;
                     //PlayerControls.ShuffleEnabled = false;
                 });
             }

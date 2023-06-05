@@ -8,7 +8,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI" xmlns:models="using:WMPFluent.Models"
     mc:Ignorable="d"
-    xmlns:custom="using:WMPFluent.Controls"
+    xmlns:custom="using:WMPFluent.Controls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="Transparent" winui:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
         <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"></SolidColorBrush>
@@ -24,11 +24,18 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="32"></RowDefinition>
             <RowDefinition Height="48"></RowDefinition>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Height="16" Width="16" Margin="16,0,0,0" Source="/Assets/StoreLogo.png"></Image>
+                <TextBlock VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="16,0,0,0">Windows Media Player Fluent Concept</TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -39,35 +46,105 @@
                     <Setter Property="Width" Value="40"></Setter>
                 </Style>
             </Grid.Resources>
-            <Button VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource NavigationBackButtonNormalStyle}"></Button>
+            <Button VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource NavigationBackButtonNormalStyle}" Click="Button_Click" IsEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"></Button>
             <winui:BreadcrumbBar Grid.Column="1" VerticalAlignment="Center" ItemsSource="{x:Bind local:App.AppViewModel.BreadcrumbNavigationItems, Mode=OneWay}" x:Name="BreadCrumbBar">
                 
             </winui:BreadcrumbBar>
             <labs:Segmented IsItemClickEnabled="True" ItemClick="Segmented_ItemClick" Grid.Column="2" Margin="5,0">
-                <labs:SegmentedItem>
-                    <labs:SegmentedItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE102;" />
-                    </labs:SegmentedItem.Icon></labs:SegmentedItem>
-                <labs:SegmentedItem>
-                    <labs:SegmentedItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xECAD;" />
-                    </labs:SegmentedItem.Icon>
+                <labs:SegmentedItem Content="Play">
                 </labs:SegmentedItem>
-                <labs:SegmentedItem>
-                    <labs:SegmentedItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE117;" />
-                    </labs:SegmentedItem.Icon>
+                <labs:SegmentedItem Content="Burn">
+                </labs:SegmentedItem>
+                <labs:SegmentedItem Content="Sync">
+                    
                 </labs:SegmentedItem>
             </labs:Segmented>
         </Grid>
-        <SplitView Grid.Row="1" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}" OpenPaneLength="260" DisplayMode="Inline" x:Name="SideBar" PanePlacement="Right" IsPaneOpen="False">
+        <SplitView Grid.Row="2" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}" OpenPaneLength="260" DisplayMode="Inline" x:Name="SideBar" PanePlacement="Right" IsPaneOpen="False">
             <SplitView.Pane>
                 <Grid BorderThickness="2,0,0,0" BorderBrush="{ThemeResource DividerBrush}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="48"/>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid BorderThickness="0,2" BorderBrush="{ThemeResource DividerBrush}" Background="{ThemeResource CommandBarBrush}"></Grid>
+                    <Grid.Resources>
+                        <Style TargetType="AppBarButton" BasedOn="{StaticResource DefaultAppBarButtonStyle}">
+                        <Setter Property="MinWidth" Value="40"></Setter>
+                    </Style>
+                    </Grid.Resources>
+                    <Grid BorderThickness="0,2" BorderBrush="{ThemeResource DividerBrush}" Background="{ThemeResource CommandBarBrush}">
+                        <CommandBar HorizontalAlignment="Left" VerticalAlignment="Center" DefaultLabelPosition="Right">
+                            <AppBarButton Label="Save list" Icon="Save"></AppBarButton>
+                            <AppBarButton Label="Clear list" Icon="Clear"></AppBarButton>
+                            <AppBarButton LabelPosition="Collapsed" Width="40">
+                                <AppBarButton.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC15;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                        </CommandBar>
+                    </Grid>
+                    <TextBlock FontWeight="Bold" Margin="10" Text="Now playing" Grid.Row="1"></TextBlock>
+                    <Grid Grid.Row="2" ColumnSpacing="8" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <controls:ImageEx CornerRadius="3" Source="{x:Bind Transport.TrackThumbnail, Mode=OneWay}" Height="68" Width="68" HorizontalAlignment="Left" VerticalAlignment="Top"></controls:ImageEx>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemAccentColor}" Text="{x:Bind Transport.TrackName,Mode=OneWay}"></TextBlock>
+                            <TextBlock TextTrimming="CharacterEllipsis"  Text="{x:Bind Transport.ArtistName,Mode=OneWay}"></TextBlock>
+                            <TextBlock TextTrimming="CharacterEllipsis"  Text="{x:Bind Transport.Album,Mode=OneWay}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <ListView Grid.Row="3" ItemsSource="{x:Bind local:App.AppViewModel.NowPlayingList,Mode=OneWay}" x:Name="PlayList" Tapped="PlayList_Tapped" IsDoubleTapEnabled="True" DoubleTapped="PlayList_DoubleTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:NowPlayingItem">
+                                <ListViewItem HorizontalContentAlignment="Stretch" Padding="3">
+                                    <custom:NowPlayingControl>
+                                        </custom:NowPlayingControl>
+                                    <!--<ListViewItem.ContextFlyout>
+                                        <MenuFlyout Opening="MenuFlyout_Opening">
+                                            <MenuFlyoutItem Text="Move up" Command="{x:Bind interactions:MediaInteractions.MoveUp(Self)}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74A;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Move down" Command="{x:Bind interactions:MediaInteractions.MoveDown(Self)}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74B;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Move to Up next"  Command="{x:Bind interactions:MediaInteractions.MoveNext(Self)}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8C5;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator/>
+                                            <MenuFlyoutItem Text="Show album" Command="{x:Bind interactions:MediaInteractions.GoToAlbumPage(AlbumIdentifier)}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE93C;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSubItem Text="Add to playlist">
+                                                <MenuFlyoutSubItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE142;" />
+                                                </MenuFlyoutSubItem.Icon>
+                                                <MenuFlyoutItem Icon="Add" Text="New playlist"></MenuFlyoutItem>
+                                            </MenuFlyoutSubItem>
+                                            <MenuFlyoutSeparator/>
+                                            <MenuFlyoutItem Text="Remove" Command="{x:Bind interactions:MediaInteractions.RemoveItem(Self)}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE108;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </ListViewItem.ContextFlyout>-->
+                                </ListViewItem>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </SplitView.Pane>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -75,21 +152,23 @@
                     <RowDefinition Height="48"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <winui:NavigationView MenuItemsSource="{x:Bind NavigationObjects, Mode=OneWay}" IsSettingsVisible="False" Grid.Row="0" Grid.RowSpan="2" IsPaneToggleButtonVisible="False" OpenPaneLength="180" IsBackButtonVisible="Collapsed" PaneDisplayMode="Left">
+                <winui:NavigationView ItemInvoked="NavList_ItemInvoked" x:Name="NavList" MenuItemsSource="{x:Bind NavigationObjects, Mode=OneWay}" IsSettingsVisible="False" Grid.Row="0" Grid.RowSpan="2" IsPaneToggleButtonVisible="False" OpenPaneLength="180" IsBackButtonVisible="Collapsed" ExpandedModeThresholdWidth="720" CompactModeThresholdWidth="719" PaneDisplayMode="Auto">
                     <winui:NavigationView.MenuItemTemplate>
                         <DataTemplate x:DataType="models:NavigationObject">
-                            <winui:NavigationViewItem Content="{x:Bind Name}" Icon="{x:Bind Icon}" MenuItemsSource="{x:Bind Items, Mode=OneWay}"></winui:NavigationViewItem>
+                            <winui:NavigationViewItem DataContext="{x:Bind}" IsExpanded="True" SelectsOnInvoked="{x:Bind IsSelectEnabled}" Content="{x:Bind Name}" Icon="{x:Bind Icon}" MenuItemsSource="{x:Bind Items, Mode=OneWay}"></winui:NavigationViewItem>
                         </DataTemplate>
                     </winui:NavigationView.MenuItemTemplate>
                     <Grid BorderBrush="{ThemeResource DividerBrush}" BorderThickness="2,0,0,0">
                         <Frame x:Name="ContentFrame"></Frame>
-                        <TextBlock Text="{x:Bind SetupViewModel.FilesProcessed, Mode=OneWay}" Visibility="Collapsed"></TextBlock>
+                        <TextBlock Text="{x:Bind SetupViewModel.FilesProcessed, Mode=OneWay}" VerticalAlignment="Bottom" x:Name="Filecount" Visibility="Collapsed">
+                            <Run Text="Files Processed..."></Run>
+                        </TextBlock>
                     </Grid>
                 </winui:NavigationView>
                 <Grid BorderThickness="2,2,0,2" BorderBrush="{ThemeResource DividerBrush}" Background="{ThemeResource CommandBarBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*" MinWidth="240" MaxWidth="360"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <CommandBar VerticalAlignment="Center" DefaultLabelPosition="Right" HorizontalAlignment="Left">
                         <AppBarButton Label="Organize">
@@ -108,21 +187,26 @@
                             </AppBarButton.Icon>
                         </AppBarButton>
                     </CommandBar>
-                    <StackPanel Margin="5,0" Spacing="4" Orientation="Horizontal" Grid.Column="1">
+                    <Grid Margin="5,0" ColumnSpacing="2" HorizontalAlignment="Stretch" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <winui:SplitButton BorderBrush="Transparent" Background="Transparent" Height="32">
-                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16" Glyph="&#xE8A9;" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16" Glyph="&#xE179;" />
                         </winui:SplitButton>
-                        <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" VerticalAlignment="Center" Width="240"></AutoSuggestBox>
-                        <Button Height="32" Background="Transparent" BorderBrush="Transparent">
+                        <AutoSuggestBox Grid.Column="1" PlaceholderText="Search" QueryIcon="Find" VerticalAlignment="Center" MaxWidth="240"></AutoSuggestBox>
+                        <Button Grid.Column="2" Height="32" Background="Transparent" BorderBrush="Transparent">
                             <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16" Glyph="&#xE11B;" /></Button>
-                    </StackPanel>
+                    </Grid>
                     
                 </Grid>
             </Grid>
         </SplitView>
-        <MediaPlayerElement Grid.Row="2" AreTransportControlsEnabled="True">
+        <MediaPlayerElement x:Name="MediaHost" Grid.Row="3" AreTransportControlsEnabled="True">
             <MediaPlayerElement.TransportControls>
-                <custom:CustomMediaTransportControls IsPreviousTrackButtonVisible="True" IsFullWindowButtonVisible="False" IsNextTrackButtonVisible="True" IsZoomButtonVisible="False" IsRepeatButtonVisible="True" IsStopButtonVisible="True"></custom:CustomMediaTransportControls>
+                <custom:CustomMediaTransportControls x:Name="Transport" IsStopEnabled="True" IsRepeatEnabled="True" IsPreviousTrackButtonVisible="True" IsFullWindowButtonVisible="False" IsNextTrackButtonVisible="True" IsZoomButtonVisible="False" IsRepeatButtonVisible="True" IsStopButtonVisible="True"></custom:CustomMediaTransportControls>
             </MediaPlayerElement.TransportControls>
         </MediaPlayerElement>
     </Grid>

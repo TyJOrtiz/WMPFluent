@@ -4,18 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WMPFluent.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:interactions="using:WMPFluent.Interactions"
     mc:Ignorable="d"
     d:DesignHeight="102"
     d:DesignWidth="230">
 
-    <Grid Width="235" Height="102" ColumnSpacing="5" VerticalAlignment="Center">
+    <Grid Width="235" PointerEntered="Grid_PointerEntered" Background="Transparent" PointerExited="Grid_PointerExited" Height="102" ColumnSpacing="5" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="102"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <controls:ImageEx Height="90" Width="90" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill" CornerRadius="3" Source="{x:Bind album.AlbumArt, Mode=OneWay}"></controls:ImageEx>
-        <StackPanel Grid.Column="1" Margin="0,0,5,0" VerticalAlignment="Center" >
+        <Button Visibility="Collapsed" x:Name="PlayButton" Command="{x:Bind interactions:MediaInteractions.PlayAll(album)}" Padding="8" Margin="10" VerticalAlignment="Bottom" RequestedTheme="Light" Style="{ThemeResource AccentButtonStyle}" CornerRadius="99">
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF5B0;" FontSize="14" />
+        </Button>
+        <StackPanel Grid.Column="1" Margin="0,0,10,0" VerticalAlignment="Center" >
             <TextBlock FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" Text="{x:Bind album.Name}"></TextBlock>
             <TextBlock FontSize="12" Opacity="0.6" Text="{x:Bind album.ArtistName}" TextTrimming="CharacterEllipsis"></TextBlock>
             <TextBlock FontSize="12" Opacity="0.6" Text="{x:Bind album.Genre}" TextTrimming="CharacterEllipsis"></TextBlock>

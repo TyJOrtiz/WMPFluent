@@ -26,5 +26,21 @@ namespace WMPFluent.Controls
             this.InitializeComponent();
             this.DataContextChanged += (s, e) => this.Bindings.Update();
         }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                PlayButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                PlayButton.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

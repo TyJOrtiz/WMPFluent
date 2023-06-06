@@ -7,7 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:winui="using:Microsoft.UI.Xaml.Controls" xmlns:custom="using:WMPFluent.Controls" xmlns:models="using:WMPFluent.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <DataTemplate x:DataType="models:LibraryAlbum" x:Key="Details" x:Name="Details">
+            <GridViewItem Padding="0" Height="102" Width="235">
+                <custom:AlbumDetailsControl></custom:AlbumDetailsControl>
+            </GridViewItem>
+        </DataTemplate>
+        <DataTemplate x:DataType="models:LibraryAlbum" x:Key="Icon" x:Name="Icon">
+            <GridViewItem Padding="0" Height="150" Width="140">
+                <custom:AlbumIconControl></custom:AlbumIconControl>
+            </GridViewItem>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -25,11 +36,11 @@
                             </GridViewItem>
                         </DataTemplate>
                     </GridView.ItemTemplate>
-                    <GridView.ItemsPanel>
+                    <!--<GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" ItemHeight="102" ItemWidth="235" Orientation="Horizontal" Margin="10,0,10,10"></ItemsWrapGrid>
                         </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
+                    </GridView.ItemsPanel>-->
                     <GridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.Panel>

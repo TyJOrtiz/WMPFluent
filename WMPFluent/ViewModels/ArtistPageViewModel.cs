@@ -11,10 +11,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
+using Windows.Storage;
 
 namespace WMPFluent.ViewModels
 {
-    public class ArtistPageViewModel : INotifyPropertyChanged
+    public class ArtistPageViewModel : ContentViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -92,6 +93,29 @@ namespace WMPFluent.ViewModels
                 IsSourceGrouped = true,
                 Source = this.ArtistSource,
             };
+            if (ApplicationData.Current.LocalSettings.Values["ArtistItemTemplate"] != null)
+            {
+                Template = (string)ApplicationData.Current.LocalSettings.Values["ArtistItemTemplate"];
+
+            }
+            else
+            {
+                Template = "Details";
+            }
+        }
+        private string template;
+        public string Template
+        {
+            get
+            {
+                return template;
+            }
+            set
+            {
+                template = value;
+                ApplicationData.Current.LocalSettings.Values["ArtistItemTemplate"] = value;
+                NotifyPropertyChanged();
+            }
         }
     }
 }

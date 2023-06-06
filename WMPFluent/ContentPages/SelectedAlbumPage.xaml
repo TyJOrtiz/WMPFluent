@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WMPFluent.ContentPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:models="using:WMPFluent.Models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:models="using:WMPFluent.Models" xmlns:interactions="using:WMPFluent.Interactions" xmlns:custom="using:WMPFluent.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,6 +26,17 @@
                 </Grid>
             </ListViewItem>
         </DataTemplate>
+
+        <DataTemplate x:Key="SmallTemplate" x:DataType="models:LibrarySong">
+            <ListViewItem Padding="20,5,10,5" ToolTipService.ToolTip="{x:Bind Name}" ToolTipService.Placement="Top" HorizontalContentAlignment="Stretch">
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" Grid.Column="0"></TextBlock>
+                </Grid>
+            </ListViewItem>
+        </DataTemplate>
         <DataTemplate x:Key="CompactTemplate" x:DataType="models:LibrarySong">
             <ListViewItem Padding="20,5,5,5" HorizontalContentAlignment="Stretch">
                 <Grid ColumnSpacing="10">
@@ -44,7 +55,7 @@
     <Grid Padding="0,48,0,0" x:Name="MainGrid">
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="150" MaxWidth="320"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <VisualStateManager.VisualStateGroups>
@@ -54,20 +65,14 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="AlbumDetails.Visibility" Value="Collapsed"></Setter>
-                        <Setter Target="MainGrid.ColumnDefinitions[0].Width" Value="0"></Setter>
-                        <Setter Target="MainGrid.ColumnDefinitions[0].MinWidth" Value="0"></Setter>
                         <Setter Target="SongView.ItemTemplate" Value="{ThemeResource CompactTemplate}"></Setter>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="840"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="AlbumDetails.Visibility" Value="Visible"></Setter>
-                        <Setter Target="MainGrid.ColumnDefinitions[0].Width" Value="*"></Setter>
-                        <Setter Target="MainGrid.ColumnDefinitions[0].MinWidth" Value="150"></Setter>
                         <Setter Target="SongView.ItemTemplate" Value="{ThemeResource CompactTemplate}"></Setter>
                     </VisualState.Setters>
                 </VisualState>
@@ -78,16 +83,22 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Margin="10" Visibility="Visible" MinWidth="150" x:Name="AlbumDetails">
-            <Grid VerticalAlignment="Top" ColumnSpacing="10">
+        <custom:ArtistHeaderControl DataContext="{x:Bind SelectedAlbumViewModel.Album}" VerticalAlignment="Top"></custom:ArtistHeaderControl>
+        <Grid Margin="10" Visibility="Collapsed" MinWidth="48" x:Name="AlbumDetails">
+            <Grid VerticalAlignment="Top" x:Name="AlbumHost" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MaxWidth="150" MinWidth="48"></ColumnDefinition>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <controls:ConstrainedBox MaxHeight="150" MaxWidth="150" AspectRatio="1:1" VerticalAlignment="Top">
-                    <controls:ImageEx CornerRadius="3" Source="{x:Bind SelectedAlbumViewModel.Album.AlbumArt}"></controls:ImageEx>
+                    <Grid PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+                        <controls:ImageEx CornerRadius="3" Source="{x:Bind SelectedAlbumViewModel.Album.AlbumArt}"></controls:ImageEx>
+                        <Button Visibility="Collapsed" HorizontalAlignment="Center" x:Name="PlayButton" Command="{x:Bind interactions:MediaInteractions.PlayAll(SelectedAlbumViewModel.Album)}" Padding="10" VerticalAlignment="Center" RequestedTheme="Light" Style="{ThemeResource AccentButtonStyle}" CornerRadius="99">
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF5B0;" FontSize="30" />
+                        </Button>
+                    </Grid>
                 </controls:ConstrainedBox>
-                <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" x:Name="TextDetails">
                     <TextBlock FontSize="20" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" FontWeight="SemiBold" Text="{x:Bind SelectedAlbumViewModel.Album.Name, Mode=OneWay}"></TextBlock>
                     <TextBlock Margin="0,5,0,0" Text="{x:Bind SelectedAlbumViewModel.Album.ArtistName, Mode=OneWay}"></TextBlock>
                     <TextBlock Text="{x:Bind SelectedAlbumViewModel.Album.Genre, Mode=OneWay}"></TextBlock>

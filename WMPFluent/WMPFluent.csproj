@@ -125,14 +125,23 @@
     <Compile Include="ContentPages\SelectedArtistPage.xaml.cs">
       <DependentUpon>SelectedArtistPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AdaptiveSongControl.xaml.cs">
+      <DependentUpon>AdaptiveSongControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AlbumDetailsControl.xaml.cs">
       <DependentUpon>AlbumDetailsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\AlbumIconControl.xaml.cs">
       <DependentUpon>AlbumIconControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ArtistHeaderControl.xaml.cs">
+      <DependentUpon>ArtistHeaderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ArtistStackControl.xaml.cs">
       <DependentUpon>ArtistStackControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ArtistStackIconControl.xaml.cs">
+      <DependentUpon>ArtistStackIconControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomMediaTransportControls.cs" />
     <Compile Include="Controls\NowPlayingControl.xaml.cs">
@@ -187,6 +196,7 @@
     <Compile Include="ViewModels\AlbumPageViewModel.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\ArtistPageViewModel.cs" />
+    <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\NavigationService.cs" />
     <Compile Include="ViewModels\SelectedAlbumViewModel.cs" />
     <Compile Include="ViewModels\SelectedArtistPageViewModel.cs" />
@@ -267,6 +277,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\AdaptiveSongControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\AlbumDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -275,7 +289,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ArtistHeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ArtistStackControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ArtistStackIconControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

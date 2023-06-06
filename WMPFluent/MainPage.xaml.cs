@@ -85,10 +85,11 @@ namespace WMPFluent
         };
         private NavigationObject PlaylistNode;
         private SetupViewModel SetupViewModel;
-
+        private static event EventHandler ViewChanged1;
         public MainPage()
         {
             this.InitializeComponent();
+            ViewChanged1 += MainPage_ViewChanged1;
             this.SizeChanged += MainPage_SizeChanged;
             PlaylistNode = NavigationObjects.First();
             var titleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -111,6 +112,12 @@ namespace WMPFluent
                 };
                 App.AppViewModel.HookMedia(MediaHost, Transport);
             }
+            App.AppViewModel.RootFrame = ContentFrame;
+        }
+
+        private void MainPage_ViewChanged1(object sender, EventArgs e)
+        {
+            TemplateSelector.Content = sender as FontIcon;
         }
 
         private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -204,11 +211,28 @@ namespace WMPFluent
 
         private void NavList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            var object1 = args.InvokedItemContainer.DataContext as NavigationObject; if (object1 != null)
+            try
             {
-                var type = Type.GetType(object1.Page);
-                ContentFrame.NavigateToType(type, null, null);
+                var object1 = args.InvokedItemContainer.DataContext as NavigationObject; if (object1 != null)
+                {
+                    var type = Type.GetType(object1.Page);
+                    ContentFrame.NavigateToType(type, null, null);
+                }
             }
+            catch
+            {
+
+            }
+        }
+        public static event EventHandler DataTemplateChanged;
+        private void SplitButton_Click(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+        {
+            DataTemplateChanged?.Invoke(null, null);
+        }
+
+        internal static void UpdateViewIcon(FontIcon fontIcon)
+        {
+            ViewChanged1?.Invoke(fontIcon, null);
         }
     }
 }

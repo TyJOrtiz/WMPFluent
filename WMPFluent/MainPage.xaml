@@ -152,7 +152,7 @@
                     <RowDefinition Height="48"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <winui:NavigationView ItemInvoked="NavList_ItemInvoked" x:Name="NavList" MenuItemsSource="{x:Bind NavigationObjects, Mode=OneWay}" IsSettingsVisible="False" Grid.Row="0" Grid.RowSpan="2" IsPaneToggleButtonVisible="False" OpenPaneLength="180" IsBackButtonVisible="Collapsed" ExpandedModeThresholdWidth="720" CompactModeThresholdWidth="719" PaneDisplayMode="Auto">
+                <winui:NavigationView ItemInvoked="NavList_ItemInvoked" x:Name="NavList" MenuItemsSource="{x:Bind NavigationObjects, Mode=OneWay}" IsSettingsVisible="False" Grid.Row="0" Grid.RowSpan="2" IsPaneToggleButtonVisible="False" OpenPaneLength="180" IsBackButtonVisible="Collapsed" ExpandedModeThresholdWidth="720" CompactModeThresholdWidth="720" PaneDisplayMode="Auto">
                     <winui:NavigationView.MenuItemTemplate>
                         <DataTemplate x:DataType="models:NavigationObject">
                             <winui:NavigationViewItem DataContext="{x:Bind}" IsExpanded="True" SelectsOnInvoked="{x:Bind IsSelectEnabled}" Content="{x:Bind Name}" Icon="{x:Bind Icon}" MenuItemsSource="{x:Bind Items, Mode=OneWay}"></winui:NavigationViewItem>
@@ -193,7 +193,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <winui:SplitButton BorderBrush="Transparent" Background="Transparent" Height="32">
+                        <winui:SplitButton Click="SplitButton_Click" x:Name="TemplateSelector" BorderBrush="Transparent" Background="Transparent" Height="32">
                             <FontIcon FontFamily="Segoe Fluent Icons" FontSize="16" Glyph="&#xE179;" />
                         </winui:SplitButton>
                         <AutoSuggestBox Grid.Column="1" PlaceholderText="Search" QueryIcon="Find" VerticalAlignment="Center" MaxWidth="240"></AutoSuggestBox>

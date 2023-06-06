@@ -7,23 +7,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:WMPFluent.Models" xmlns:custom="using:WMPFluent.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
 
+        <DataTemplate x:DataType="models:LibraryArtist" x:Name="Details" x:Key="Details">
+            <GridViewItem Height="102" Width="235" Padding="0"
+>
+                <custom:ArtistStackControl></custom:ArtistStackControl>
+            </GridViewItem>
+        </DataTemplate>
+        <DataTemplate x:DataType="models:LibraryArtist" x:Name="Icon" x:Key="Icon">
+            <GridViewItem Height="180" Width="130" Padding="0"
+>
+                <custom:ArtistStackIconControl></custom:ArtistStackIconControl>
+            </GridViewItem>
+        </DataTemplate>
+    </Page.Resources>
     <Grid Padding="0,48,0,0">
         <SemanticZoom Grid.Row="2" Visibility="Visible" IsZoomOutButtonEnabled="True" ScrollViewer.ZoomMode="Enabled">
             <SemanticZoom.ZoomedInView>
                 <GridView ContainerContentChanging="ArtistView_ContainerContentChanging" ItemsSource="{x:Bind ArtistPageViewModel.CollectionView.View, Mode=OneWay}" IsItemClickEnabled="True" SelectionMode="None" ItemClick="ArtistView_ItemClick" Padding="0" HorizontalContentAlignment="Center" x:Name="ArtistView">
 
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="models:LibraryArtist">
-                            <GridViewItem Padding="0"
->
-                                <custom:ArtistStackControl></custom:ArtistStackControl>
-                            </GridViewItem>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" ItemHeight="102" ItemWidth="235" Orientation="Horizontal" Margin="10,0,10,10"></ItemsWrapGrid>
+                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False"  Orientation="Horizontal" Margin="10,0,10,10"></ItemsWrapGrid>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.GroupStyle>

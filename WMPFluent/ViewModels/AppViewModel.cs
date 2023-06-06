@@ -401,5 +401,6 @@ namespace WMPFluent.ViewModels
         }
 
         public MediaPlayer MediaPlayer { get; internal set; }
+        public Frame RootFrame { get; set; }
     }
 }

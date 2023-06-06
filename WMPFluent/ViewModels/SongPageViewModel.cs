@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Data;
 
 namespace WMPFluent.ViewModels
 {
-    internal class SongPageViewModel : INotifyPropertyChanged
+    internal class SongPageViewModel : ContentViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

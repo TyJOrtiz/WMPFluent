@@ -4,37 +4,91 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WMPFluent.ContentPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:WMPFluent.Models" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:WMPFluent.Models" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:custom="using:WMPFluent.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
 
+        <DataTemplate x:Key="WideTemplate" x:DataType="models:LibrarySong">
+            <ListViewItem Padding="20,5,5,5" HorizontalContentAlignment="Stretch">
+                <Grid Background="Red" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="48"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Track}"></TextBlock>
+                    <TextBlock Text="{x:Bind Name}" MaxWidth="300" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.Column="1"></TextBlock>
+                    <TextBlock Text="{x:Bind SongArtistName}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Grid.Column="2"></TextBlock>
+                    <TextBlock Text="{x:Bind Duration}" Grid.Column="3"></TextBlock>
+                </Grid>
+            </ListViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SmallTemplate" x:DataType="models:LibrarySong">
+            <ListViewItem Padding="20,5,10,5" ToolTipService.ToolTip="{x:Bind Name}" ToolTipService.Placement="Top" HorizontalContentAlignment="Stretch">
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Name}" MaxWidth="320" TextTrimming="CharacterEllipsis" Grid.Column="0"></TextBlock>
+                </Grid>
+            </ListViewItem>
+        </DataTemplate>
+        <DataTemplate x:Key="CompactTemplate" x:DataType="models:LibrarySong">
+            <ListViewItem Padding="20,5,5,5" HorizontalContentAlignment="Stretch">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="48"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Track}"></TextBlock>
+                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" MaxWidth="500" Grid.Column="1"></TextBlock>
+                </Grid>
+            </ListViewItem>
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
-        <ListView  Margin="0,48,0,0" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SongView.ItemTemplate" Value="{ThemeResource CompactTemplate}"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="840"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SongView.ItemTemplate" Value="{ThemeResource CompactTemplate}"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1300"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <ListView Visibility="Visible" x:Name="SongView"  Margin="0,48,0,0" ItemTemplate="{ThemeResource WideTemplate}" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Top" Width="320" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MaxWidth="100" MinWidth="100"></ColumnDefinition>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <controls:ConstrainedBox MaxHeight="150" MaxWidth="150" AspectRatio="1:1" VerticalAlignment="Top">
-                                    <controls:ImageEx CornerRadius="3" Source="{Binding Key.AlbumArt}"></controls:ImageEx>
-                                </controls:ConstrainedBox>
-                                <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                                    <TextBlock FontSize="16" MaxLines="2" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" FontWeight="SemiBold" Text="{Binding Key.Name, Mode=OneWay}"></TextBlock>
-                                    <TextBlock FontSize="16" Margin="0,5,0,0" Text="{Binding  Key.Genre, Mode=OneWay}"></TextBlock>
-                                    <TextBlock FontSize="16" Text="{Binding Key.Year, Mode=OneWay}"></TextBlock>
-                                </StackPanel>
-                            </Grid>
+                            <custom:ArtistHeaderControl DataContext="{Binding Key}"></custom:ArtistHeaderControl>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </ListView.GroupStyle>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsStackPanel GroupHeaderPlacement="Left" GroupPadding="0,10" Margin="10"></ItemsStackPanel>
+                    <ItemsStackPanel GroupHeaderPlacement="Left" GroupPadding="0,5" Margin="0"></ItemsStackPanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>

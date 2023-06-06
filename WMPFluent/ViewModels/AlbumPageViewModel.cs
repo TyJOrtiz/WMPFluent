@@ -16,7 +16,7 @@ using Newtonsoft.Json.Linq;
 
 namespace WMPFluent.ViewModels
 {
-    public class AlbumPageViewModel : INotifyPropertyChanged
+    public class AlbumPageViewModel : ContentViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -142,6 +142,7 @@ namespace WMPFluent.ViewModels
         }
         public AlbumPageViewModel() 
         {
+
             LibraryAlbums = new ObservableCollection<LibraryAlbum>();
             if (ApplicationData.Current.LocalSettings.Values["AlbumSortOption"] != null)
             {
@@ -157,6 +158,29 @@ namespace WMPFluent.ViewModels
             else
             {
                 SelectedSortOption = SortValues.First();
+            }
+            if (ApplicationData.Current.LocalSettings.Values["AlbumItemTemplate"] != null)
+            {
+                Template = (string)ApplicationData.Current.LocalSettings.Values["AlbumItemTemplate"];
+                
+            }
+            else
+            {
+                Template = "Details";
+            }
+        }
+        private string template;
+        public string Template
+        {
+            get
+            {
+                return template;
+            }
+            set
+            {
+                template = value;
+                ApplicationData.Current.LocalSettings.Values["AlbumItemTemplate"] = value;
+                NotifyPropertyChanged();
             }
         }
         private ObservableCollection<string> genres;

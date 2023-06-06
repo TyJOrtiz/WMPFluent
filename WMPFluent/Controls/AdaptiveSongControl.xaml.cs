@@ -12,19 +12,16 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using WMPFluent.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace WMPFluent.Controls
 {
-    public sealed partial class AlbumIconControl : UserControl
+    public sealed partial class AdaptiveSongControl : UserControl
     {
-        public LibraryAlbum album { get { return this.DataContext as LibraryAlbum; } }
-        public AlbumIconControl()
+        public AdaptiveSongControl()
         {
             this.InitializeComponent();
-            this.DataContextChanged += (s, e) => this.Bindings.Update();
         }
     }
 }

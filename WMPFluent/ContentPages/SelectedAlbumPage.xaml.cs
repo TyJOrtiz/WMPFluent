@@ -23,7 +23,7 @@ namespace WMPFluent.ContentPages
     /// </summary>
     public sealed partial class SelectedAlbumPage : Page
     {
-        private SelectedAlbumViewModel SelectedAlbumViewModel;
+        public SelectedAlbumViewModel SelectedAlbumViewModel;
         public SelectedAlbumPage()
         {
             this.InitializeComponent();
@@ -32,6 +32,22 @@ namespace WMPFluent.ContentPages
         {
             base.OnNavigatedTo(e);
             SelectedAlbumViewModel = (SelectedAlbumViewModel)e.Parameter;
+        }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                PlayButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                PlayButton.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

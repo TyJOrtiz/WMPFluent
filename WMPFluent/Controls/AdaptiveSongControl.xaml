@@ -5,16 +5,22 @@
     xmlns:local="using:WMPFluent.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    mc:Ignorable="d" Foreground="{x:Bind song.IsPlaying, Mode=OneWay, Converter={StaticResource BoolToColorConverter}}" xmlns:converters="using:WMPFluent.Converters">
+    <UserControl.Resources>
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+    </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="24"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="48"/>
         </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{x:Bind song.Track}"></TextBlock>
+        <TextBlock Text="{x:Bind song.Name}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.Column="1"></TextBlock>
+        <TextBlock Text="{x:Bind song.SongArtistName}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Grid.Column="2"></TextBlock>
+        <TextBlock Text="{x:Bind song.Duration}" Grid.Column="3"></TextBlock>
     </Grid>
 </UserControl>

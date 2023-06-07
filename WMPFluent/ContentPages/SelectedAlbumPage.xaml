@@ -58,7 +58,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
@@ -82,7 +82,7 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        </VisualStateManager.VisualStateGroups>-->
         <custom:ArtistHeaderControl DataContext="{x:Bind SelectedAlbumViewModel.Album}" VerticalAlignment="Top"></custom:ArtistHeaderControl>
         <Grid Margin="10" Visibility="Collapsed" MinWidth="48" x:Name="AlbumDetails">
             <Grid VerticalAlignment="Top" x:Name="AlbumHost" ColumnSpacing="10">
@@ -106,7 +106,14 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <ListView Grid.Column="1" x:Name="SongView"  ItemTemplate="{ThemeResource WideTemplate}" ItemsSource="{x:Bind SelectedAlbumViewModel.Album.Songs}">
+        <ListView Grid.Column="1" x:Name="SongView" ItemsSource="{x:Bind SelectedAlbumViewModel.Album.Songs}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:LibrarySong">
+                    <ListViewItem Padding="25,5,5,5">
+                        <custom:AdaptiveSongControl></custom:AdaptiveSongControl>
+                    </ListViewItem>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.Resources>
                 <SolidColorBrush x:Key="ListViewItemForegroundSelected" Color="{ThemeResource SystemAccentColor}"></SolidColorBrush>
             </ListView.Resources>

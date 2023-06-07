@@ -51,7 +51,7 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
@@ -75,8 +75,15 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <ListView Visibility="Visible" x:Name="SongView"  Margin="0,48,0,0" ItemTemplate="{ThemeResource WideTemplate}" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
+        </VisualStateManager.VisualStateGroups>-->
+        <ListView Visibility="Visible" x:Name="SongView"  Margin="0,48,0,0" ItemsSource="{x:Bind SelectedArtistPageViewModel.CollectionView.View,Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:LibrarySong">
+                    <ListViewItem Padding="25,5,5,5" HorizontalContentAlignment="Stretch">
+                        <custom:AdaptiveSongControl></custom:AdaptiveSongControl>
+                    </ListViewItem>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>

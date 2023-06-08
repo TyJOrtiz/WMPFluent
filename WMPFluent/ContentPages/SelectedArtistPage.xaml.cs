@@ -27,11 +27,67 @@ namespace WMPFluent.ContentPages
         public SelectedArtistPage()
         {
             this.InitializeComponent();
+            SongView.Loaded += SongView_Loaded;
         }
+
+        private void SongView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.ActualWidth < 720)
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Top;
+            }
+            else
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Left;
+            }
+            LayoutChanged1?.Invoke(((SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement == GroupHeaderPlacement.Left), EventArgs.Empty);
+            this.SizeChanged += SelectedArtistPage_SizeChanged;
+        }
+
+        private void SelectedArtistPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width < 720)
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Top;
+            }
+            else
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Left;
+            }
+            LayoutChanged1?.Invoke(((SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement == GroupHeaderPlacement.Left), EventArgs.Empty);
+        }
+        public static event EventHandler LayoutChanged1;
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             SelectedArtistPageViewModel = (SelectedArtistPageViewModel)e.Parameter;
+        }
+
+        private void AdaptiveSongControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.ActualWidth < 720)
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Top;
+            }
+            else
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Left;
+            }
+            LayoutChanged1?.Invoke(((SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement == GroupHeaderPlacement.Left), EventArgs.Empty);
+        }
+
+        private void ArtistHeaderControl_BringIntoViewRequested(UIElement sender, BringIntoViewRequestedEventArgs args)
+        {
+            if (this.ActualWidth < 720)
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Top;
+            }
+            else
+            {
+                (SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement = GroupHeaderPlacement.Left;
+            }
+            LayoutChanged1?.Invoke(((SongView.ItemsPanelRoot as ItemsStackPanel).GroupHeaderPlacement == GroupHeaderPlacement.Left), EventArgs.Empty);
         }
     }
 }

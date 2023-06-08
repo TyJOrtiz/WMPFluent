@@ -83,7 +83,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>-->
-        <custom:ArtistHeaderControl DataContext="{x:Bind SelectedAlbumViewModel.Album}" VerticalAlignment="Top"></custom:ArtistHeaderControl>
+        <custom:ArtistHeaderControl DataContext="{x:Bind SelectedAlbumViewModel.Album}" x:Name="Header"  VerticalAlignment="Top"></custom:ArtistHeaderControl>
         <Grid Margin="10" Visibility="Collapsed" MinWidth="48" x:Name="AlbumDetails">
             <Grid VerticalAlignment="Top" x:Name="AlbumHost" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>

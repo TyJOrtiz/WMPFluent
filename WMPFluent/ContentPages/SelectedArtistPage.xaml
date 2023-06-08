@@ -8,7 +8,32 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-
+        <DataTemplate x:Key="WideHeaderTemplate" x:Name="WideHeaderTemplate">
+            <custom:ArtistHeaderControl DataContext="{Binding Key}"></custom:ArtistHeaderControl>
+        </DataTemplate>
+        <GroupStyle x:Key="WideStyle" x:Name="WideStyle" HeaderTemplate="{ThemeResource WideHeaderTemplate}">
+            <GroupStyle.Panel>
+                <ItemsPanelTemplate>
+                    <StackPanel></StackPanel>
+                </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+        </GroupStyle>
+        <GroupStyle x:Key="CompactStyle" x:Name="CompactStyle" HeaderTemplate="{ThemeResource CompactHeaderTemplate}">
+            <GroupStyle.Panel>
+                <ItemsPanelTemplate>
+                    <StackPanel></StackPanel>
+                </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+        </GroupStyle>
+        <DataTemplate x:Key="CompactHeaderTemplate" x:Name="CompactHeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <controls:ImageEx Source="{Binding Key.AlbumArt}"></controls:ImageEx>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="WideTemplate" x:DataType="models:LibrarySong">
             <ListViewItem Padding="20,5,5,5" HorizontalContentAlignment="Stretch">
                 <Grid Background="Red" ColumnSpacing="10">
@@ -86,16 +111,21 @@
             </ListView.ItemTemplate>
             <ListView.GroupStyle>
                 <GroupStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel></ItemsStackPanel>
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <custom:ArtistHeaderControl DataContext="{Binding Key}"></custom:ArtistHeaderControl>
+                            <custom:ArtistHeaderControl Loaded="AdaptiveSongControl_Loaded" BringIntoViewRequested="ArtistHeaderControl_BringIntoViewRequested" DataContext="{Binding Key}"></custom:ArtistHeaderControl>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </ListView.GroupStyle>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsStackPanel GroupHeaderPlacement="Left" GroupPadding="0,5" Margin="0"></ItemsStackPanel>
+                    <ItemsStackPanel GroupHeaderPlacement="Left" AreStickyGroupHeadersEnabled="False" GroupPadding="0,5" Margin="0"></ItemsStackPanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>

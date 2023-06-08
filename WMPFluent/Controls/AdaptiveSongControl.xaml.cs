@@ -25,10 +25,11 @@ namespace WMPFluent.Controls
         {
             this.InitializeComponent();
             this.DataContextChanged += (s, e) => this.Bindings.Update();
+            UpdateLayout();
             UpdateControlLayout(this.ActualWidth);
             this.SizeChanged += AdaptiveSongControl_SizeChanged;
         }
-
+        
         private void AdaptiveSongControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateControlLayout(e.NewSize.Width);
@@ -36,18 +37,29 @@ namespace WMPFluent.Controls
 
         private void UpdateControlLayout(double width)
         {
+            try
+            {
+                MainGrid.Width = width - 10;
+            }
+            catch
+            {
+
+            }
             if (width < 648)
             {
+                MainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
                 MainGrid.ColumnDefinitions[2].Width = new GridLength(0, GridUnitType.Pixel);
-                MainGrid.ColumnDefinitions[3].Width = new GridLength(0, GridUnitType.Pixel);
+                MainGrid.ColumnDefinitions[3].Width = new GridLength(48, GridUnitType.Pixel);
             }
             else if (width >= 648 && width < 720)
             {
+                MainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
                 MainGrid.ColumnDefinitions[2].Width = new GridLength(0, GridUnitType.Pixel);
                 MainGrid.ColumnDefinitions[3].Width = new GridLength(48, GridUnitType.Pixel);
             }
             else if (width >= 720)
             {
+                MainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
                 MainGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
                 MainGrid.ColumnDefinitions[3].Width = new GridLength(48, GridUnitType.Pixel);
             }

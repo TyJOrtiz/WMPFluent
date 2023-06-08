@@ -31,6 +31,7 @@ namespace WMPFluent.ContentPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Header.turnonAdaptive();
             SelectedAlbumViewModel = (SelectedAlbumViewModel)e.Parameter;
         }
 
